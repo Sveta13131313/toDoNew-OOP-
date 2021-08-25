@@ -10,7 +10,7 @@ class Todo {
     }
 
     addToStorage() {
-        localStorage.setItem('toDoList', JSON.stringify([...this.todoData]))
+        localStorage.setItem('toDoList', JSON.stringify([...this.todoData]));
     }
 
     render() {
@@ -46,19 +46,20 @@ class Todo {
                 key: this.generateKey(),
             };
             this.todoData.set(newTodo.key, newTodo);
-            this.render()
+            this.render();
         }
     }
 
     generateKey() {
-        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2,15);
+        return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15);
     }
 
     init() {
-        this.form.addEneventListener('submit', this.addTodo.bind(this))
+        this.form.addEneventListener('submit', this.addTodo.bind(this));
         this.render();
     }
 }
 
 const todo = new Todo('.todo-control', '.header-input', '.todo-list', '.todo-completed');
-todo.init();
+todo.init.bind(this);
+
