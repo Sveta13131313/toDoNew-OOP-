@@ -49,11 +49,10 @@ class Todo {
                 key: this.generateKey(),
             };
             this.todoData.set(newTodo.key, newTodo);
-            
+
             this.input.value = '';
             this.render();
-        }
-        else {
+        } else {
             alert('Пустое поле добавлять нельзя!');
             return;
         }
@@ -66,60 +65,58 @@ class Todo {
     handler() {
         document.querySelector('.todo-container').addEventListener('click', this.completedItem.bind(this));
         document.querySelector('.todo-container').addEventListener('click', this.deleteItem.bind(this));
-             document.querySelector('.todo-container').addEventListener('click', this.editItem.bind(this));
-      }
+        document.querySelector('.todo-container').addEventListener('click', this.editItem.bind(this));
+    }
 
     //Удалить элемент
     deleteItem(e) {
         const button = e.target;
         const todoItem = button.closest('.todo-item');
 
-    if (button.matches('.todo-remove')) {
-      this.todoData.forEach(el => {
-        if (el.key === todoItem.key) this.todoData.delete(el.key);
-      });
+        if (button.matches('.todo-remove')) {
+            this.todoData.forEach(el => {
+                if (el.key === todoItem.key) this.todoData.delete(el.key);
+            });
 
-      this.render();
-    }
+            this.render();
+        }
     }
 
     //Отметка о выполнении
     completedItem(e) {
-        let button = e.target;
-        let todoItem = button.closest('.todo-item');
-    
+        const button = e.target;
+        const todoItem = button.closest('.todo-item');
+
         if (button.matches('.todo-complete') && (button.closest('.todo-completed'))) {
-          this.todoList.append(todoItem);
-    
-          this.todoData.forEach(el => {
-            if (el.key === todoItem.key) el.completed = false;
-          });
+            this.todoList.append(todoItem);
+
+            this.todoData.forEach(el => {
+                if (el.key === todoItem.key) el.completed = false;
+            });
         } else if (button.matches('.todo-complete') && (button.closest('.todo-list'))) {
-          this.todoCompleted.append(todoItem);
-    
-          this.todoData.forEach(el => {
-            if (el.key === todoItem.key) el.completed = true;
-          });
+            this.todoCompleted.append(todoItem);
+
+            this.todoData.forEach(el => {
+                if (el.key === todoItem.key) el.completed = true;
+            });
         }
-    
+
         this.render();
 
     }
     //Изменить элемент
-     editItem(e) {
-       const button = e.target;
+    editItem(e) {
+        const button = e.target;
         const todoItem = button.closest('.todo-item');
 
-    if (button.matches('.todo-edit')) {
-      this.todoData.forEach(el => {
-     if (el.key === todoItem.key) {
-     let element=document.querySelector(`li[key=${el.key}]`);
-     console.log(element);
-     element.setAttribute('contenteditable','true');
-     }
-      });
-      this.render();
-    }
+        if (button.matches('.todo-edit')) {
+            this.todoData.forEach(el => {
+                if (el.key === todoItem.key) {
+                   todoItem.setAttribute('contenteditable', 'true');
+                }
+            });
+           
+        }
     }
 
     init() {
