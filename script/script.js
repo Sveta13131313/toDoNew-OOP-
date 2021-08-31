@@ -66,7 +66,39 @@ class Todo {
         document.querySelector('.todo-container').addEventListener('click', this.completedItem.bind(this));
         document.querySelector('.todo-container').addEventListener('click', this.deleteItem.bind(this));
         document.querySelector('.todo-container').addEventListener('click', this.editItem.bind(this));
+
+        document.querySelector('.todo-container').addEventListener('click', (e) => {
+            let count = 1;
+            let interval = setInterval(() => {
+                count *= 1.1;
+                if (count < 2000) {
+                    if (e.target.className === 'todo-complete') {
+                        e.target.parentNode.parentNode.style.transform = `translateX(${count}px)`;
+                    } else {
+                        if (e.target.className === 'todo-remove') {
+                            e.target.parentNode.parentNode.style.transform = `translateX(-${count}px)`;
+                        }
+                    }
+
+                } else {
+                    clearInterval(interval);
+                    count = 1;
+                }
+            }, 10);
+
+            setTimeout(() => {
+                if (e.target.className === 'todo-complete') {
+                    this.completedItem(e);
+                } else {
+                    if (e.target.className === 'todo-remove') {
+                        this.deleteItem(e);
+                    }
+                }
+            }, 1000);
+        });
     }
+
+
 
     //Удалить элемент
     deleteItem(e) {
@@ -106,17 +138,24 @@ class Todo {
     }
     //Изменить элемент
     editItem(e) {
+
         const button = e.target;
         const todoItem = button.closest('.todo-item');
 
         if (button.matches('.todo-edit')) {
-            this.todoData.forEach(el => {
-                if (el.key === todoItem.key) {
-                   todoItem.setAttribute('contenteditable', 'true');
-                }
-            });
-           
+            const newText = prompt('Что-то хотите поменять?');
+            if (newText && newText.trim() !== '') {
+                this.todoData.forEach(el => {
+                    if (el.key === todoItem.key) {
+                        el.value = newText;
+                        this.render();
+                    }
+                });
+
+            }
+
         }
+
     }
 
     init() {
